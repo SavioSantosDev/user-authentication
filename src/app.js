@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
+import './database/connection';
 import routes from './routes';
 
 class App {
