@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
 
-    <title>Cadastro e autenticação de usuários</title>
+    <title>Painel de usuários</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,10 +21,12 @@
           <div class="col-12 col-md-8 col-lg-6">
 
             <section class="bg-white rounded border p-5">
-              <header class="display-5 border-bottom mb-5">
-                <span class="pb-3 d-block">
+              <header class="border-bottom mb-5">
+                <span class="display-5 pb-3 d-block">
                   Painel de usuários
                 </span>
+
+                <%- include('./includes/flash-messages') %>
               </header>
 
               <section>

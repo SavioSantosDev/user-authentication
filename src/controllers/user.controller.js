@@ -1,32 +1,41 @@
-import User from '../models/user.model';
+import UserService from '../services/user.service';
 
-export default class UserController {
+class UserController {
   renderRegisterPage(req, res) {
-    return res.render('register');
+    return req.session.user ? res.redirect('/painel') : res.render('register');
   }
 
-  async store(req, res) {
+  async register(req, res, next) {
+    const userService = new UserService();
     try {
-      const { id, name, email } = await User.create(req.body);
+      await userService.register(req.body);
 
-      return res.status(201).json({ id, name, email });
+      req.flash('success', 'Usuário criado com sucesso!');
+      return req.session.save(() => res.status(201).redirect('/entrar'));
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: 'Erro interno no servidor!' });
+      next(err);
     }
   }
 
-  async show(req, res) {
+  renderLoginPage(req, res) {
+    return req.session.user ? res.redirect('/painel') : res.render('login');
+  }
+
+  async login(req, res, next) {
+    const userService = new UserService();
     try {
-      const user = await User.findByPk(req.params.id);
-      if (!user) {
-        return res.status(400).json({ errors: ['Usuário não existe!'] });
-      }
-      const { id, name, email } = user;
-      return res.status(200).json({ id, name, email });
+      const user = await userService.login(req.body);
+      req.session.user = user;
+      return req.session.save(() => res.status(200).redirect('/painel'));
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: 'Erro interno no servidor!' });
+      next(err);
     }
+  }
+
+  logout(req, res) {
+    req.session.destroy();
+    return res.redirect('/');
   }
 }
+
+export default new UserController();

@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
 
-    <title>Cadastro e autenticação de usuários</title>
+    <title>Painel administrativo</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,15 +18,15 @@
 
       <nav class="navbar navbar-dark bg-dark bg-gradient text-white py-4">
         <div class="container">
-          <h4>{{ Usuário }}</h4>
-          <a href="/" class="ms-auto btn btn-light">Sair</a>
+          <h4><%= user.name %></h4>
+          <a href="/sair" class="ms-auto btn btn-light">Sair</a>
         </div>
       </nav>
 
       <section class="container">
         <header class="display-5 border-bottom my-5">
           <span class="pb-3 d-block">
-            Olá {{ Usuário }}!
+            Olá <%= user.name %>!
           </span>
         </header>
 

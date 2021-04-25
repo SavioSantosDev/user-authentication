@@ -1,19 +1,28 @@
 import { Router } from 'express';
 
-import UserController from './controllers/user.controller';
+import userController from './controllers/user.controller';
+import panelController from './controllers/panel.controller';
+import { loginRequired } from './middlewares';
 
 const routes = Router();
-const userController = new UserController();
 
 routes.get('/', (req, res) => res.render('index'));
 
-routes.get('/entrar', (req, res) => res.render('login'));
+routes.get('/entrar', userController.renderLoginPage);
+routes.post('/entrar', userController.login);
 
 routes.get('/cadastrar', userController.renderRegisterPage);
-routes.post('/cadastrar', userController.store);
+routes.post('/cadastrar', userController.register);
 
-routes.get('/painel', (req, res) => res.render('panel'));
+routes.get('/sair', userController.logout);
 
+/**
+ * Rotas privates
+ */
+
+routes.get('/painel', loginRequired, panelController.renderPanelPage);
+
+// Erro 404
 routes.use((req, res) => res.status(404).render('404'));
 
 export default routes;
